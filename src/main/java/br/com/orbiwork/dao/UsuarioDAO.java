@@ -13,7 +13,7 @@ import java.util.List;
 public class UsuarioDAO {
 
     @Inject
-    br.com.orbiwork.dao.ConnectionFactory connectionFactory;
+    ConnectionFactory connectionFactory;
 
     public void inserir(Usuario usuario) {
         String sql = "INSERT INTO USUARIO (NOME, EMAIL) VALUES (?, ?)";
