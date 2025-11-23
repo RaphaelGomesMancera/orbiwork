@@ -1,5 +1,13 @@
-*
-!target/*-runner
-!target/*-runner.jar
-!target/lib/*
-!target/quarkus-app/*
+# Ignorar somente arquivos de build local
+target/
+
+# Ignorar configurações de IDE
+.idea/
+.vscode/
+.mvn/
+
+# Ignorar Git
+.git
+.gitignore
+
+# Permitir src/ e pom.xml (essenciais!)
