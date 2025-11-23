@@ -2,7 +2,7 @@ D:\donwload\orbiwork-api\src\main\java\br\com\orbiwork\bo\CursoBO.java
 D:\donwload\orbiwork-api\src\main\java\br\com\orbiwork\bo\TrilhaBO.java
 D:\donwload\orbiwork-api\src\main\java\br\com\orbiwork\bo\UsuarioBO.java
 D:\donwload\orbiwork-api\src\main\java\br\com\orbiwork\config\CorsFilter.java
-D:\donwload\orbiwork-api\src\main\java\br\com\orbiwork\ConnectionFactory.java
+D:\donwload\orbiwork-api\src\main\java\br\com\orbiwork\dao\ConnectionFactory.java
 D:\donwload\orbiwork-api\src\main\java\br\com\orbiwork\dao\CursoDAO.java
 D:\donwload\orbiwork-api\src\main\java\br\com\orbiwork\dao\TrilhaDAO.java
 D:\donwload\orbiwork-api\src\main\java\br\com\orbiwork\dao\UsuarioDAO.java

@@ -8,9 +8,9 @@ import java.sql.SQLException;
 @ApplicationScoped
 public class ConnectionFactory {
 
-    private static final String URL = System.getProperty("quarkus.datasource.jdbc.url");
-    private static final String USER = System.getProperty("quarkus.datasource.username");
-    private static final String PASS = System.getProperty("quarkus.datasource.password");
+    private static final String URL = System.getenv("DB_URL");
+    private static final String USER = System.getenv("DB_USER");
+    private static final String PASS = System.getenv("DB_PASSWORD");
 
     public Connection getConnection() {
         try {
@@ -19,7 +19,7 @@ public class ConnectionFactory {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException("Driver PostgreSQL não encontrado.", e);
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao conectar ao PostgreSQL.", e);
+            throw new RuntimeException("Erro de conexão com PostgreSQL.", e);
         }
     }
 }
