@@ -5,6 +5,7 @@ import br.com.orbiwork.model.Usuario;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,12 +14,12 @@ import java.util.List;
 public class UsuarioDAO {
 
     @Inject
-    ConnectionFactory connectionFactory;
+    DataSource dataSource;
 
     public void inserir(Usuario usuario) {
         String sql = "INSERT INTO USUARIO (NOME, EMAIL) VALUES (?, ?)";
 
-        try (Connection conn = connectionFactory.getConnection();
+        try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, usuario.getNome());
@@ -33,7 +34,7 @@ public class UsuarioDAO {
     public Usuario buscarPorId(Long id) {
         String sql = "SELECT * FROM USUARIO WHERE ID = ?";
 
-        try (Connection conn = connectionFactory.getConnection();
+        try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setLong(1, id);
@@ -55,10 +56,10 @@ public class UsuarioDAO {
     }
 
     public List<Usuario> listar() {
-        String sql = "SELECT * FROM USUARIO ORDER BY ID";
         List<Usuario> lista = new ArrayList<>();
+        String sql = "SELECT * FROM USUARIO ORDER BY ID";
 
-        try (Connection conn = connectionFactory.getConnection();
+        try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
@@ -80,7 +81,7 @@ public class UsuarioDAO {
     public void atualizar(Usuario usuario) {
         String sql = "UPDATE USUARIO SET NOME = ?, EMAIL = ? WHERE ID = ?";
 
-        try (Connection conn = connectionFactory.getConnection();
+        try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, usuario.getNome());
@@ -96,7 +97,7 @@ public class UsuarioDAO {
     public void deletar(Long id) {
         String sql = "DELETE FROM USUARIO WHERE ID = ?";
 
-        try (Connection conn = connectionFactory.getConnection();
+        try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setLong(1, id);

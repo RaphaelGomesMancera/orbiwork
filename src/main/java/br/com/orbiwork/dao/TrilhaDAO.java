@@ -5,6 +5,7 @@ import br.com.orbiwork.model.Trilha;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,12 +14,12 @@ import java.util.List;
 public class TrilhaDAO {
 
     @Inject
-    br.com.orbiwork.dao.ConnectionFactory connectionFactory;
+    DataSource dataSource;
 
     public void inserir(Trilha trilha) {
         String sql = "INSERT INTO TRILHA (NOME, DESCRICAO) VALUES (?, ?)";
 
-        try (Connection conn = connectionFactory.getConnection();
+        try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, trilha.getNome());
@@ -33,7 +34,7 @@ public class TrilhaDAO {
     public Trilha buscarPorId(Long id) {
         String sql = "SELECT * FROM TRILHA WHERE ID = ?";
 
-        try (Connection conn = connectionFactory.getConnection();
+        try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setLong(1, id);
@@ -50,14 +51,15 @@ public class TrilhaDAO {
         } catch (Exception e) {
             throw new DatabaseException("Erro ao buscar trilha.", e);
         }
+
         return null;
     }
 
     public List<Trilha> listar() {
-        String sql = "SELECT * FROM TRILHA ORDER BY ID";
         List<Trilha> lista = new ArrayList<>();
+        String sql = "SELECT * FROM TRILHA ORDER BY ID";
 
-        try (Connection conn = connectionFactory.getConnection();
+        try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
@@ -79,7 +81,7 @@ public class TrilhaDAO {
     public void atualizar(Trilha trilha) {
         String sql = "UPDATE TRILHA SET NOME = ?, DESCRICAO = ? WHERE ID = ?";
 
-        try (Connection conn = connectionFactory.getConnection();
+        try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, trilha.getNome());
@@ -95,7 +97,7 @@ public class TrilhaDAO {
     public void deletar(Long id) {
         String sql = "DELETE FROM TRILHA WHERE ID = ?";
 
-        try (Connection conn = connectionFactory.getConnection();
+        try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setLong(1, id);

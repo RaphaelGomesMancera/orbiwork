@@ -58,13 +58,18 @@
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-smallrye-openapi</artifactId>
         </dependency>
-
-        <!-- Driver PostgreSQL - NECESSÁRIO para sua ConnectionFactory -->
+        <!-- Pool de conexões / DataSource do Quarkus -->
         <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>42.7.4</version>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-agroal</artifactId>
         </dependency>
+
+        <!-- Driver + integração JDBC com Postgres -->
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-jdbc-postgresql</artifactId>
+        </dependency>
+
 
     </dependencies>
 

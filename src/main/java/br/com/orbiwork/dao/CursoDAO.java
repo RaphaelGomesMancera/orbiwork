@@ -5,6 +5,7 @@ import br.com.orbiwork.model.Curso;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,12 +14,12 @@ import java.util.List;
 public class CursoDAO {
 
     @Inject
-    br.com.orbiwork.dao.ConnectionFactory connectionFactory;
+    DataSource dataSource;
 
     public void inserir(Curso curso) {
         String sql = "INSERT INTO CURSO (TITULO, CARGA_HORARIA, TRILHA_ID) VALUES (?, ?, ?)";
 
-        try (Connection conn = connectionFactory.getConnection();
+        try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, curso.getTitulo());
@@ -34,7 +35,7 @@ public class CursoDAO {
     public Curso buscarPorId(Long id) {
         String sql = "SELECT * FROM CURSO WHERE ID = ?";
 
-        try (Connection conn = connectionFactory.getConnection();
+        try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setLong(1, id);
@@ -57,15 +58,15 @@ public class CursoDAO {
     }
 
     public List<Curso> listar() {
+        List<Curso> lista = new ArrayList<>();
         String sql = "SELECT * FROM CURSO ORDER BY ID";
-        List<Curso> cursos = new ArrayList<>();
 
-        try (Connection conn = connectionFactory.getConnection();
+        try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                cursos.add(new Curso(
+                lista.add(new Curso(
                         rs.getLong("ID"),
                         rs.getString("TITULO"),
                         rs.getInt("CARGA_HORARIA"),
@@ -77,13 +78,13 @@ public class CursoDAO {
             throw new DatabaseException("Erro ao listar cursos.", e);
         }
 
-        return cursos;
+        return lista;
     }
 
     public void atualizar(Curso curso) {
         String sql = "UPDATE CURSO SET TITULO = ?, CARGA_HORARIA = ?, TRILHA_ID = ? WHERE ID = ?";
 
-        try (Connection conn = connectionFactory.getConnection();
+        try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, curso.getTitulo());
@@ -100,7 +101,7 @@ public class CursoDAO {
     public void deletar(Long id) {
         String sql = "DELETE FROM CURSO WHERE ID = ?";
 
-        try (Connection conn = connectionFactory.getConnection();
+        try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setLong(1, id);
